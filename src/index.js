@@ -48,6 +48,7 @@ function App() {
 
   return (
     <div className="container">
+      <h1 className="text-center">Kanban - React Hooks</h1>
       <div className="card-deck mb-3 text-center">
         {boards.map(board => (
           <div className="card mb-4 shadow-sm" key={board.id}>
@@ -78,6 +79,7 @@ function App() {
         ))}
       </div>
       <button onClick={() => setState({ isShow: !isShow })}>Add task</button>
+      <p className="mt-5">&copy; 2018 Ahmad Aidil</p>
       <Modal
         isShow={isShow}
         onCancel={() => setState({ isShow: !isShow })}

@@ -4,7 +4,7 @@ function Modal({ isShow, onCancel, onConfirm }) {
   const [text, setText] = useState("");
   return (
     <div
-      className={`modal fade${isShow ? " show" : ""}`}
+      className={`modal fade${isShow ? "block" : "none"}`}
       tabIndex="-1"
       role="dialog"
       style={{ display: isShow ? "block" : "none" }}

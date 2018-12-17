@@ -4,6 +4,8 @@ import id from "shortid";
 
 import "bootstrap/dist/css/bootstrap.css";
 
+import Modal from "./modal";
+
 function reducer(oldState, newState) {
   return { ...oldState, ...newState };
 }
@@ -15,20 +17,33 @@ const boards = [
 ];
 
 function App() {
-  const [{ tasks }, setTasks] = useReducer(reducer, {
-    tasks: [{ id: id.generate(), boardId: 1, name: "haha" }]
+  const [{ tasks, isShow }, setState] = useReducer(reducer, {
+    tasks: [{ id: id.generate(), boardId: 1, name: "haha" }],
+    isShow: false
   });
 
   function updateTask(taskId, type) {
     const newTasks = tasks.map(task => {
-      if (type === "next" && task.boardId < 3) {
-        task.boardId += 1;
-      } else if (type === "prev" && task.boardId > 1) {
-        task.boardId -= 1;
+      if (taskId === task.id) {
+        if (type === "next" && task.boardId < 3) {
+          task.boardId += 1;
+        } else if (type === "prev" && task.boardId > 1) {
+          task.boardId -= 1;
+        }
       }
       return task;
     });
-    setTasks({ tasks: newTasks });
+    setState({ tasks: newTasks });
+  }
+
+  function addTask(text) {
+    const newTasks = tasks;
+    newTasks.push({
+      id: id.generate(),
+      boardId: 1,
+      name: text
+    });
+    setState({ tasks: newTasks, isShow: false });
   }
 
   return (
@@ -62,6 +77,12 @@ function App() {
           </div>
         ))}
       </div>
+      <button onClick={() => setState({ isShow: !isShow })}>Add task</button>
+      <Modal
+        isShow={isShow}
+        onCancel={() => setState({ isShow: !isShow })}
+        onConfirm={addTask}
+      />
     </div>
   );
 }

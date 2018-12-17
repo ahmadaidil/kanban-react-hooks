@@ -1,5 +1,6 @@
 import React, { useReducer } from "react";
 import ReactDOM from "react-dom";
+import id from "shortid";
 
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -15,7 +16,7 @@ const boards = [
 
 function App() {
   const [{ tasks }, setTasks] = useReducer(reducer, {
-    tasks: [{ id: 1, boardId: 1, name: "haha" }]
+    tasks: [{ id: id.generate(), boardId: 1, name: "haha" }]
   });
   return (
     <div className="container">
@@ -24,15 +25,16 @@ function App() {
           <div className="card mb-4 shadow-sm" key={board.id}>
             <div className="card-header">{board.title}</div>
             <div className="card-body">
-              {tasks.map(task => {
-                if (task.boardId === board.id) {
-                  return (
-                    <div className="card-body" key={task.id}>
-                      {task.name}
+              {tasks.map(
+                task =>
+                  task.boardId === board.id && (
+                    <div className="card mb-4 shadow-sm" key={task.id}>
+                      <div className="card-body" key={task.id}>
+                        {task.name}
+                      </div>
                     </div>
-                  );
-                }
-              })}
+                  )
+              )}
             </div>
           </div>
         ))}

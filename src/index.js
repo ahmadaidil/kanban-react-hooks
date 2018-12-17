@@ -18,6 +18,19 @@ function App() {
   const [{ tasks }, setTasks] = useReducer(reducer, {
     tasks: [{ id: id.generate(), boardId: 1, name: "haha" }]
   });
+
+  function updateTask(taskId, type) {
+    const newTasks = tasks.map(task => {
+      if (type === "next" && task.boardId < 3) {
+        task.boardId += 1;
+      } else if (type === "prev" && task.boardId > 1) {
+        task.boardId -= 1;
+      }
+      return task;
+    });
+    setTasks({ tasks: newTasks });
+  }
+
   return (
     <div className="container">
       <div className="card-deck mb-3 text-center">
@@ -31,6 +44,16 @@ function App() {
                     <div className="card mb-4 shadow-sm" key={task.id}>
                       <div className="card-body" key={task.id}>
                         {task.name}
+                        {board.id > 1 && (
+                          <button onClick={() => updateTask(task.id, "prev")}>
+                            prev
+                          </button>
+                        )}
+                        {board.id < 3 && (
+                          <button onClick={() => updateTask(task.id, "next")}>
+                            next
+                          </button>
+                        )}
                       </div>
                     </div>
                   )
